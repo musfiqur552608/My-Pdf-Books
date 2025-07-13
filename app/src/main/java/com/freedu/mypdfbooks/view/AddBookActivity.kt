@@ -1,7 +1,9 @@
 package com.freedu.mypdfbooks.view
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +15,8 @@ import com.freedu.mypdfbooks.R
 import com.freedu.mypdfbooks.databinding.ActivityAddBookBinding
 import com.freedu.mypdfbooks.model.Book
 import com.freedu.mypdfbooks.viewmodel.BookViewModel
+import java.io.File
+import java.io.FileOutputStream
 
 class AddBookActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBookBinding
@@ -30,7 +34,11 @@ class AddBookActivity : AppCompatActivity() {
             pickImage.launch("image/*")
         }
         binding.btnPickPdf.setOnClickListener {
-            pickPdf.launch("application/pdf")
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "application/pdf"
+            }
+            pdfPickerLauncher.launch(intent)
         }
 
         binding.btnSave.setOnClickListener {
@@ -47,15 +55,33 @@ class AddBookActivity : AppCompatActivity() {
 
     }
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        it?.let {
-            imageUri = it
-            binding.ivPickImage.setImageURI(it)
+        it?.let { uri ->
+            val savedUri = copyUriToInternalStorage(uri, "cover_${System.currentTimeMillis()}.jpg")
+            imageUri = savedUri
+            findViewById<ImageView>(R.id.ivPickImage).setImageURI(savedUri)
         }
     }
 
-    private val pickPdf = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        it?.let {
-            pdfUri = it
+    private val pdfPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            val uri = it.data?.data ?: return@registerForActivityResult
+            try {
+                contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+            }
+            pdfUri = uri
+            Toast.makeText(this, "PDF Selected", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun copyUriToInternalStorage(uri: Uri, fileName: String): Uri {
+        val inputStream = contentResolver.openInputStream(uri) ?: return uri
+        val file = File(filesDir, fileName)
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        inputStream.close()
+        outputStream.close()
+        return Uri.fromFile(file)
+    }
+
 }

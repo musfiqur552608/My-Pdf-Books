@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.adapter = BookAdapter{
+        adapter = BookAdapter{
             val intent = Intent(this, PdfViewerActivity::class.java)
             intent.putExtra("pdfUri", it.pdfUri)
             startActivity(intent)
