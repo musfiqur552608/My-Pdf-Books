@@ -56,36 +56,46 @@ An Android app to store, manage, and read your personal PDF books, built using K
 
 ##  Folder Structure
 
-project-root:
-data:
-- Book.kt
-- BookDao.kt
-- BookDatabase.kt
-repository:
-- BookRepository.kt
-viewmodel:
-- BookViewModel.kt
-ui:
-- MainActivity.kt
-- AddBookActivity.kt
-- PdfViewerActivity.kt
-adapter:
-- BookAdapter.kt
-- PdfPagerAdapter.kt
-layout:
-- activity_main.xml
-- activity_add_book.xml
-- activity_pdf_viewer.xml
-- item_book.xml
-- item_pdf_page.xml
-drawable:
-- ic_launcher_foreground.png
-- ic_launcher_background.png
-manifest:
-- AndroidManifest.xml
-build:
-- build.gradle (Module)
-- build.gradle (Project)
+pdf-book-saver-app/
+  ├── data/
+  │   ├── Book.kt                # Entity class for Room database
+  │   ├── BookDao.kt             # DAO interface for database operations
+  │   └── BookDatabase.kt        # Room database singleton
+  │
+  ├── repository/
+  │   └── BookRepository.kt      # Repository for managing data access
+  │
+  ├── viewmodel/
+  │   └── BookViewModel.kt       # ViewModel exposing LiveData to UI
+  │
+  ├── ui/
+  │   ├── MainActivity.kt        # Displays book list
+  │   ├── AddBookActivity.kt     # Form to add or edit a book
+  │   └── PdfViewerActivity.kt   # Renders PDF with paging & zoom
+  │
+  ├── adapter/
+  │   ├── BookAdapter.kt         # RecyclerView adapter for book list
+  │   └── PdfPagerAdapter.kt     # Adapter for rendering PDF pages
+  │
+  ├── res/
+  │   ├── layout/
+  │   │   ├── activity_main.xml
+  │   │   ├── activity_add_book.xml
+  │   │   ├── activity_pdf_viewer.xml
+  │   │   ├── item_book.xml
+  │   │   └── item_pdf_page.xml
+  │   ├── drawable/
+  │   │   └── (images and icons)
+  │   └── values/
+  │       ├── colors.xml
+  │       ├── strings.xml
+  │       └── themes.xml
+  │
+  ├── AndroidManifest.xml        # App manifest with permissions
+  ├── build.gradle (Module)      # App module build file
+  ├── build.gradle (Project)     # Project-level build settings
+  └── settings.gradle            # Gradle settings file
+
 
 
 ---
