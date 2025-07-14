@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
             onClick = {
                 val intent = Intent(this, PdfViewerActivity::class.java)
                 intent.putExtra("pdfUri", it.pdfUri)
+                intent.putExtra("bookId", it.id)
+                intent.putExtra("lastPage", it.lastPageRead)
                 startActivity(intent)
             },
             onLongClick = {

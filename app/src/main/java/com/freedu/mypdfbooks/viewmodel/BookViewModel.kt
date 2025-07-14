@@ -28,4 +28,8 @@ class BookViewModel(application: Application):AndroidViewModel(application) {
         repository.delete(book)
     }
 
+    fun updateLastPage(bookId: Int, page: Int) = viewModelScope.launch {
+        repository.updateLastPage(bookId, page)
+    }
+
 }

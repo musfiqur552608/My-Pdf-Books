@@ -12,5 +12,6 @@ data class Book(
     val version:String,
     val year:String,
     val imageUri:String,
-    val pdfUri:String
+    val pdfUri:String,
+    val lastPageRead: Int = 0
 )

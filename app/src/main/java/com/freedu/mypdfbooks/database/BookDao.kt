@@ -17,4 +17,7 @@ interface BookDao {
 
     @Query("SELECT * FROM books")
     fun  getAllBooks():LiveData<List<Book>>
+
+    @Query("UPDATE books SET lastPageRead = :page WHERE id = :bookId")
+    suspend fun updateLastReadPage(bookId: Int, page: Int)
 }
