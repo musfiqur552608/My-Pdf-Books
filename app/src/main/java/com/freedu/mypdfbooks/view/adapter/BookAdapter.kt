@@ -1,16 +1,18 @@
 package com.freedu.mypdfbooks.view.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.freedu.mypdfbooks.databinding.ItemBookBinding
 import com.freedu.mypdfbooks.model.Book
-import androidx.core.net.toUri
 
-class BookAdapter(private val onClick: (Book) -> Unit) :
+class BookAdapter(
+    private val onClick: (Book) -> Unit,
+    private val onLongClick: (Book) -> Unit
+) :
     ListAdapter<Book, BookAdapter.BookViewHolder>(DiffCallBack()) {
     class BookViewHolder(val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -30,8 +32,10 @@ class BookAdapter(private val onClick: (Book) -> Unit) :
             ivBook.setImageURI(book.imageUri.toUri())
         }
 
-        holder.itemView.setOnClickListener {
-            onClick(book)
+        holder.itemView.setOnClickListener { onClick(book) }
+        holder.itemView.setOnLongClickListener {
+            onLongClick(book)
+            true
         }
 
     }

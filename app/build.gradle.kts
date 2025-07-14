@@ -6,7 +6,7 @@ plugins {
 
 android {
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
     namespace = "com.freedu.mypdfbooks"
@@ -57,5 +57,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
-
+    // For Zoomable ImageView
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+    // For ViewPager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 }

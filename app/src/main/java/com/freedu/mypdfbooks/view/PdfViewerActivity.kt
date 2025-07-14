@@ -9,63 +9,37 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.freedu.mypdfbooks.R
+import com.freedu.mypdfbooks.view.adapter.PdfPagerAdapter
+
 class PdfViewerActivity : AppCompatActivity() {
 
     private lateinit var pdfRenderer: PdfRenderer
-    private lateinit var currentPage: PdfRenderer.Page
-    private var parcelFileDescriptor: ParcelFileDescriptor? = null
-
-    private lateinit var imageView: ImageView
-    private lateinit var seekBar: SeekBar
+    private lateinit var viewPager: ViewPager2
+    private var fileDescriptor: ParcelFileDescriptor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_viewer)
 
-        imageView = findViewById(R.id.pdfImageView)
-        seekBar = findViewById(R.id.pageSeekBar)
+        viewPager = findViewById(R.id.pdfViewPager)
+        val uriString = intent.getStringExtra("pdfUri") ?: return
+        val uri = Uri.parse(uriString)
 
-        val uriString = intent.getStringExtra("pdfUri")
-        val pdfUri = uriString?.let { Uri.parse(it) }
-
-        if (pdfUri != null) {
-            contentResolver.openFileDescriptor(pdfUri, "r")?.use { descriptor ->
-                parcelFileDescriptor = descriptor
-                pdfRenderer = PdfRenderer(descriptor)
-                seekBar.max = pdfRenderer.pageCount - 1
-                showPage(0)
-
-                seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        showPage(progress)
-                    }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-                })
-            }
-        } else {
-            Toast.makeText(this, "Invalid PDF Uri", Toast.LENGTH_SHORT).show()
+        contentResolver.openFileDescriptor(uri, "r")?.let { descriptor ->
+            fileDescriptor = descriptor
+            pdfRenderer = PdfRenderer(descriptor)
+            viewPager.adapter = PdfPagerAdapter(pdfRenderer)
+        } ?: run {
+            Toast.makeText(this, "Unable to open PDF", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    private fun showPage(index: Int) {
-        if (::currentPage.isInitialized) {
-            currentPage.close()
-        }
-
-        currentPage = pdfRenderer.openPage(index)
-        val bitmap = Bitmap.createBitmap(currentPage.width, currentPage.height, Bitmap.Config.ARGB_8888)
-        currentPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-        imageView.setImageBitmap(bitmap)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        currentPage.close()
         pdfRenderer.close()
-        parcelFileDescriptor?.close()
+        fileDescriptor?.close()
     }
 }
