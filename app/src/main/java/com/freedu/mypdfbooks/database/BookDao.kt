@@ -24,4 +24,8 @@ interface BookDao {
 
     @Query("UPDATE books SET lastPageRead = :page WHERE id = :bookId")
     suspend fun updateLastReadPage(bookId: Int, page: Int)
+
+
+    @Query("SELECT * FROM books WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%' OR version LIKE '%' || :query || '%' OR year LIKE '%' || :query || '%'")
+    fun searchBooks(query: String): LiveData<List<Book>>
 }

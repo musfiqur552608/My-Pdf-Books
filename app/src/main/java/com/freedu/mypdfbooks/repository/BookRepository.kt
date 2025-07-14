@@ -21,4 +21,8 @@ class BookRepository(private val dao:BookDao) {
     suspend fun update(book: Book) {
         dao.update(book)
     }
+
+    fun searchBooks(query: String): LiveData<List<Book>> {
+        return dao.searchBooks(query)
+    }
 }

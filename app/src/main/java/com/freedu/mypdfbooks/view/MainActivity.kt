@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -80,6 +81,27 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddBookActivity::class.java)
             startActivity(intent)
         }
+
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    viewModel.searchBooks(it).observe(this@MainActivity) {
+                        adapter.submitList(it)
+                    }
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    viewModel.searchBooks(it).observe(this@MainActivity) {
+                        adapter.submitList(it)
+                    }
+                }
+                return true
+            }
+        })
 
 
 

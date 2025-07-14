@@ -36,4 +36,8 @@ class BookViewModel(application: Application):AndroidViewModel(application) {
         repository.updateLastPage(bookId, page)
     }
 
+    fun searchBooks(query: String): LiveData<List<Book>> {
+        return repository.searchBooks(query)
+    }
+
 }
