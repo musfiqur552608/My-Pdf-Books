@@ -54,8 +54,9 @@ An Android app to store, manage, and read your personal PDF books, built using K
 
 --- 
 
-##  Folder Structure
+## 📁 Folder Structure
 
+```yaml
 pdf-book-saver-app/
   ├── data/
   │   ├── Book.kt                # Entity class for Room database
@@ -95,11 +96,7 @@ pdf-book-saver-app/
   ├── build.gradle (Module)      # App module build file
   ├── build.gradle (Project)     # Project-level build settings
   └── settings.gradle            # Gradle settings file
-
-
-
----
-
+```
 ## 🙏 Acknowledgments
 
 - [PdfRenderer](https://developer.android.com/reference/android/webkit/PdfRenderer)
