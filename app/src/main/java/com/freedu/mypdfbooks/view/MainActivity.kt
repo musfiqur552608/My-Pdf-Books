@@ -52,7 +52,21 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             },
             onLongClick = {
-                showDeleteDialog(it)
+                val options = arrayOf("Edit", "Delete")
+                AlertDialog.Builder(this)
+                    .setTitle("Choose an option")
+                    .setItems(options) { _, which ->
+                        if (which == 0) {
+                            // Edit
+                            val intent = Intent(this, AddBookActivity::class.java)
+                            intent.putExtra("bookToEdit", it)
+                            startActivity(intent)
+                        } else {
+                            // Delete
+                            showDeleteDialog(it)
+                        }
+                    }
+                    .show()
             }
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(this)

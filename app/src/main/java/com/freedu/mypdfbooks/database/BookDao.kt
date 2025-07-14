@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.freedu.mypdfbooks.model.Book
 
 @Dao
@@ -14,6 +15,9 @@ interface BookDao {
 
     @Delete
     suspend fun delete(book: Book)
+
+    @Update
+    suspend fun update(book: Book)
 
     @Query("SELECT * FROM books")
     fun  getAllBooks():LiveData<List<Book>>

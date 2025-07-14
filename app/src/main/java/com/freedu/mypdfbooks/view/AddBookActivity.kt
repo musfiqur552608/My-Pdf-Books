@@ -23,6 +23,9 @@ class AddBookActivity : AppCompatActivity() {
     private lateinit var viewModel: BookViewModel
     private lateinit var pdfUri: Uri
     private lateinit var imageUri: Uri
+    private var isEditMode = false
+    private var currentBookId: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityAddBookBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -41,15 +44,36 @@ class AddBookActivity : AppCompatActivity() {
             pdfPickerLauncher.launch(intent)
         }
 
+        val receivedBook = intent.getParcelableExtra<Book>("bookToEdit")
+        if (receivedBook != null) {
+            isEditMode = true
+            currentBookId = receivedBook.id
+
+            // Pre-fill the form
+            binding.etTitle.setText(receivedBook.title)
+            binding.etAuthor.setText(receivedBook.author)
+            binding.etVersion.setText(receivedBook.version)
+            binding.etYear.setText(receivedBook.year)
+            imageUri = Uri.parse(receivedBook.imageUri)
+            pdfUri = Uri.parse(receivedBook.pdfUri)
+
+            binding.ivPickImage.setImageURI(imageUri)
+        }
+
         binding.btnSave.setOnClickListener {
             val title = binding.etTitle.text.toString()
             val author = binding.etAuthor.text.toString()
             val version = binding.etVersion.text.toString()
             val year = binding.etYear.text.toString()
 
-            val book = Book(0, title, author, version, year, imageUri.toString(), pdfUri.toString())
-            viewModel.insert(book)
-            Toast.makeText(this, "Book added", Toast.LENGTH_SHORT).show()
+            val book = Book(id = currentBookId ?: 0, title, author, version, year, imageUri.toString(), pdfUri.toString())
+            if (isEditMode) {
+                viewModel.update(book)
+                Toast.makeText(this, "Book updated!", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.insert(book)
+                Toast.makeText(this, "Book saved!", Toast.LENGTH_SHORT).show()
+            }
             finish()
         }
 

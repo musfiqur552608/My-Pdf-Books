@@ -1,8 +1,11 @@
 package com.freedu.mypdfbooks.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "books")
 data class Book(
     @PrimaryKey(autoGenerate = true)
@@ -14,4 +17,4 @@ data class Book(
     val imageUri:String,
     val pdfUri:String,
     val lastPageRead: Int = 0
-)
+): Parcelable
