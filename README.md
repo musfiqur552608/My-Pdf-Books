@@ -108,9 +108,9 @@ build:
 
 ---
 
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/pdf-book-saver?style=social)](https://github.com/yourusername/pdf-book-saver)
-[![GitHub Forks](https://img.shields.io/github/forks/yourusername/pdf-book-saver?style=social)](https://github.com/yourusername/pdf-book-saver/forks)
-[![GitHub Issues](https://img.shields.io/github/issues/yourusername/pdf-book-saver?style=social)](https://github.com/yourusername/pdf-book-saver/issues)    
+[![GitHub Stars](https://img.shields.io/github/stars/yourusername/pdf-book-saver?style=social)](https://github.com/musfiqur552608/pdf-book-saver)
+[![GitHub Forks](https://img.shields.io/github/forks/yourusername/pdf-book-saver?style=social)](https://github.com/musfiqur552608/pdf-book-saver/forks)
+[![GitHub Issues](https://img.shields.io/github/issues/yourusername/pdf-book-saver?style=social)](https://github.com/musfiqur552608/pdf-book-saver/issues)    
 
 ---
 
