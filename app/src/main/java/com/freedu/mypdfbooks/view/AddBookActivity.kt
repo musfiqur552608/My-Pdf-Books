@@ -4,10 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +33,16 @@ class AddBookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val toolbar: Toolbar? = findViewById(R.id.customToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val titleTextView: TextView? = toolbar?.findViewById(R.id.action_bar_title)
+        titleTextView?.text = "Add New Book"
+
+        // Optional: back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar?.setNavigationOnClickListener { finish() }
+
         viewModel = ViewModelProvider(this)[BookViewModel::class.java]
 
         binding.ivPickImage.setOnClickListener {
@@ -48,6 +60,7 @@ class AddBookActivity : AppCompatActivity() {
         if (receivedBook != null) {
             isEditMode = true
             currentBookId = receivedBook.id
+            titleTextView?.text = "Update Book Details"
 
             // Pre-fill the form
             binding.etTitle.setText(receivedBook.title)

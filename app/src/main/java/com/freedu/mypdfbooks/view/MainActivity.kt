@@ -2,10 +2,12 @@ package com.freedu.mypdfbooks.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -44,11 +46,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar: Toolbar? = findViewById(R.id.customToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val titleTextView: TextView? = toolbar?.findViewById(R.id.action_bar_title)
+        titleTextView?.text = "Book Shelf"
+
+        // Optional: back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar?.setNavigationOnClickListener { onBackPressed() }
+
         adapter = BookAdapter(
             onClick = {
                 val intent = Intent(this, PdfViewerActivity::class.java)
                 intent.putExtra("pdfUri", it.pdfUri)
                 intent.putExtra("bookId", it.id)
+                intent.putExtra("bookTitle", it.title)
                 intent.putExtra("lastPage", it.lastPageRead)
                 startActivity(intent)
             },
@@ -106,4 +119,17 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    override fun onBackPressed() {
+        if (!isFinishing && !isDestroyed) {
+            AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { _, _ ->
+                    finishAffinity()
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
+    }
+
 }

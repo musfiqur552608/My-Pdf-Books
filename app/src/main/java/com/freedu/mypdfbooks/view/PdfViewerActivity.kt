@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.freedu.mypdfbooks.R
@@ -24,6 +26,17 @@ class PdfViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_viewer)
+
+        val toolbar: Toolbar? = findViewById(R.id.customToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val titleTextView: TextView? = toolbar?.findViewById(R.id.action_bar_title)
+        val bookTitle = intent.getStringExtra("bookTitle") ?: "Book Preview"
+        titleTextView?.text = bookTitle
+
+        // Optional: back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar?.setNavigationOnClickListener { finish() }
 
         viewPager = findViewById(R.id.pdfViewPager)
         val uriString = intent.getStringExtra("pdfUri") ?: return
