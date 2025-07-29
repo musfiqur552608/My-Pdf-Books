@@ -3,6 +3,7 @@ package com.freedu.mypdfbooks.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.freedu.mypdfbooks.database.BookDatabase
 import com.freedu.mypdfbooks.model.Book
@@ -12,12 +13,17 @@ import kotlinx.coroutines.launch
 class BookViewModel(application: Application):AndroidViewModel(application) {
     private val repository:BookRepository
     val allBooks:LiveData<List<Book>>
+    val favoriteBooks: LiveData<List<Book>>
+    val importantBooks: LiveData<List<Book>>
+
 
 
     init {
         val dao = BookDatabase.getDatabase(application).bookDao()
         repository = BookRepository(dao)
         allBooks = repository.allBooks
+        favoriteBooks = repository.getFavoriteBooks().asLiveData()
+        importantBooks = repository.getImportantBooks().asLiveData()
     }
 
     fun insert(book:Book) = viewModelScope.launch {
@@ -39,5 +45,9 @@ class BookViewModel(application: Application):AndroidViewModel(application) {
     fun searchBooks(query: String): LiveData<List<Book>> {
         return repository.searchBooks(query)
     }
+
+//    fun getFavoriteBooks(): LiveData<List<Book>> = repository.getFavoriteBooks()
+//
+//    fun getImportantBooks(): LiveData<List<Book>> = repository.getImportantBooks()
 
 }

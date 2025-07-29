@@ -16,5 +16,7 @@ data class Book(
     val year:String,
     val imageUri:String,
     val pdfUri:String,
-    val lastPageRead: Int = 0
+    val lastPageRead: Int = 0,
+    var isFavorite: Boolean = false,
+    val isImportant: Boolean = false
 ): Parcelable

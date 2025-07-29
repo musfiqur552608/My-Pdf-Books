@@ -30,7 +30,19 @@ class BookAdapter(
             tvVersion.text = book.version
             tvYear.text = book.year
             ivBook.setImageURI(book.imageUri.toUri())
+            favoriteIcon.visibility = if (book.isFavorite) ViewGroup.VISIBLE else ViewGroup.GONE
+            importantIcon.visibility = if (book.isImportant) ViewGroup.VISIBLE else ViewGroup.GONE
+
+            favoriteIcon.setOnClickListener {
+                val updatedBook = book.copy(isFavorite = !book.isFavorite)
+                onClick(updatedBook)
+            }
+            importantIcon.setOnClickListener {
+                val updatedBook = book.copy(isImportant = !book.isImportant)
+                onClick(updatedBook)
+            }
         }
+
 
         holder.itemView.setOnClickListener { onClick(book) }
         holder.itemView.setOnLongClickListener {

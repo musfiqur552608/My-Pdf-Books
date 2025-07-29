@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/allBooksFragment">
+
+    <fragment
+        android:id="@+id/allBooksFragment"
+        android:name="com.freedu.mypdfbooks.view.AllBooksFragment"
+        android:label="fragment_all_books"
+        tools:layout="@layout/fragment_all_books" />
+    <fragment
+        android:id="@+id/favoriteBooksFragment"
+        android:name="com.freedu.mypdfbooks.view.FavoriteBooksFragment"
+        android:label="fragment_favorite_books"
+        tools:layout="@layout/fragment_favorite_books" />
+    <fragment
+        android:id="@+id/importantBooksFragment"
+        android:name="com.freedu.mypdfbooks.view.ImportantBooksFragment"
+        android:label="fragment_important_books"
+        tools:layout="@layout/fragment_important_books" />
+</navigation>

@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.freedu.mypdfbooks.model.Book
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(book:Book)
 
     @Delete
@@ -28,4 +30,11 @@ interface BookDao {
 
     @Query("SELECT * FROM books WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%' OR version LIKE '%' || :query || '%' OR year LIKE '%' || :query || '%'")
     fun searchBooks(query: String): LiveData<List<Book>>
+
+    @Query("SELECT * FROM books WHERE isFavorite = 1")
+    fun getFavoriteBooks(): Flow<List<Book>>
+
+    @Query("SELECT * FROM books WHERE isImportant = 1")
+    fun getImportantBooks(): Flow<List<Book>>
+
 }

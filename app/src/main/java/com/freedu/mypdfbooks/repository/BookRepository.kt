@@ -3,6 +3,7 @@ package com.freedu.mypdfbooks.repository
 import androidx.lifecycle.LiveData
 import com.freedu.mypdfbooks.database.BookDao
 import com.freedu.mypdfbooks.model.Book
+import kotlinx.coroutines.flow.Flow
 
 class BookRepository(private val dao:BookDao) {
     val allBooks: LiveData<List<Book>> = dao.getAllBooks()
@@ -25,4 +26,8 @@ class BookRepository(private val dao:BookDao) {
     fun searchBooks(query: String): LiveData<List<Book>> {
         return dao.searchBooks(query)
     }
+
+    fun getFavoriteBooks(): Flow<List<Book>> = dao.getFavoriteBooks()
+    fun getImportantBooks(): Flow<List<Book>> = dao.getImportantBooks()
+
 }

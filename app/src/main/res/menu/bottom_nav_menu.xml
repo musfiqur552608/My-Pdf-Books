@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/allBooksFragment"
+        android:icon="@drawable/list"
+        android:title="All" />
+    <item
+        android:id="@+id/favoriteBooksFragment"
+        android:icon="@drawable/favourite"
+        android:title="Favorite" />
+    <item
+        android:id="@+id/importantBooksFragment"
+        android:icon="@drawable/important"
+        android:title="Important" />
+</menu>

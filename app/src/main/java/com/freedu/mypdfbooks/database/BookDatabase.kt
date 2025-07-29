@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.freedu.mypdfbooks.model.Book
 
-@Database(entities = [Book::class], version = 1)
+@Database(entities = [Book::class], version = 2)
 abstract class BookDatabase:RoomDatabase() {
     abstract fun bookDao():BookDao
 
@@ -18,6 +18,7 @@ abstract class BookDatabase:RoomDatabase() {
             return INSTANCE ?: synchronized(this){
                 Room.databaseBuilder(context.applicationContext,
                     BookDatabase::class.java, "book_db")
+                    .fallbackToDestructiveMigration()
                     .build().also { INSTANCE = it }
             }
         }
